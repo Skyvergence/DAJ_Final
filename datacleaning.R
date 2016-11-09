@@ -106,3 +106,48 @@ rownames(reading_t5) <- 1:nrow(reading_t5)
 
 reading_t5 <- reading_t5[-c(35:39),]
 rownames(reading_t5) <- 1:nrow(reading_t5)
+
+
+
+
+
+##### gini of asia development #####
+gini_asia <- read_excel("data/asia_gini.xls", sheet = 1, col_names = F)
+gini_asia <- gini_asia[11:59,]
+gini_asia <- gini_asia[,-1]
+colnames(gini_asia) <- c("Country", 1990:2013)
+rownames(gini_asia) <- c(1:nrow(gini_asia))
+gini_asia[1,2:ncol(gini_asia)] <- as.character(gini_asia[1, 2:ncol(gini_asia)])
+gini_asia <- gini_asia[-1,]
+rownames(gini_asia) <- c(1:nrow(gini_asia))
+
+# gini_asia[1,7] <- as.character(strsplit(gini_asia[1,7], split = "\\.")[[1]][1])
+# gini_asia[1,"2012"] <- as.character(strsplit(gini_asia[1,"2012"], split = "\\.")[[1]][1])
+
+##### gini of world bank #####
+gini_wb <- read_excel("data/world_bank_gini.xls", sheet = 1, col_names = F)
+gini_wb <- gini_wb[-c(1:3),]
+colnames(gini_wb) <- gini_wb[1,]
+gini_wb <- gini_wb[-1,]
+rownames(gini_wb) <- 1:nrow(gini_wb)
+
+
+##### Education resources (Primary pupil–teacher ratio) #####
+primary_ratio <- read_excel("data/primary_ratio.xls", sheet = 1, col_names = F)
+primary_ratio <- primary_ratio[10:58,]
+primary_ratio <- primary_ratio[,-1]
+colnames(primary_ratio) <- c("region", 1990:2013)
+rownames(primary_ratio) <- 1:nrow(primary_ratio)
+primary_ratio <- primary_ratio[-1,]
+rownames(primary_ratio) <- 1:nrow(primary_ratio)
+
+##### Education resources (Secondary pupil–teacher ratio) #####
+secondary_ratop <- read_excel("data/secondary_ratio.xls", sheet = 1, col_names = F)
+secondary_ratop <- secondary_ratop[10:58,]
+secondary_ratop <- secondary_ratop[,-1]
+colnames(secondary_ratop) <- c("region", 1990:2013)
+rownames(secondary_ratop) <- 1:nrow(secondary_ratop)
+secondary_ratop <- secondary_ratop[-1,]
+rownames(secondary_ratop) <- 1:nrow(secondary_ratop)
+
+
