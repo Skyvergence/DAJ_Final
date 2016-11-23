@@ -1,4 +1,5 @@
 library(readxl)
+library(dplyr)
 
 ##### Import Data #####
 math <- read.csv("data/ESCSMath_2012.csv", header = T)
@@ -151,3 +152,67 @@ secondary_ratop <- secondary_ratop[-1,]
 rownames(secondary_ratop) <- 1:nrow(secondary_ratop)
 
 
+
+
+##### Combine working hour with other data #####
+workhr2012 <- read_csv("C:/Users/Leo/Desktop/R105/R105/Final_Project/data/workhr2012.csv")
+workhr2012$workhour <- as.numeric(workhr2012$workhour)
+data <- data.frame("country" = workhr2012$country, "workhour" = workhr2012$workhour)
+data <- tapply(data$workhour, data$country, mean)
+data <- data.frame(data)
+data$country <- rownames(data)
+data$workhour12 <- data$data
+data <- data[,-1]
+rownames(data) <- c(1:nrow(data))
+
+pisa2012 <- read_csv("C:/Users/Leo/Desktop/R105/R105/Final_Project/data/PISA2012.csv")
+colnames(pisa2012) <- c("country", "reading", "math", "science")
+data <- inner_join(data, pisa2012, c("country" = "country"))
+data <- inner_join(data, math_l2, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-3):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science","math_l2")
+
+data <- inner_join(data, math_t5, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-3):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science","math_l2", "math_t5")
+
+data <- inner_join(data, reading_l2, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-4):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science",
+                    "math_l2", "math_t5",
+                    "reading_l2")
+
+data <- inner_join(data, reading_t5, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-4):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science",
+                    "math_l2", "math_t5",
+                    "reading_l2", "reading_t5")
+
+data <- inner_join(data, science_l2, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-2):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science",
+                    "math_l2", "math_t5",
+                    "reading_l2", "reading_t5",
+                    "science_l2")
+
+data <- inner_join(data, science_t5, c("country" = "Ed_system"))
+data <- data[,-c((ncol(data)-2):(ncol(data)-1))]
+colnames(data) <- c("country","workhour12","reading","math","science",
+                    "math_l2", "math_t5",
+                    "reading_l2", "reading_t5",
+                    "science_l2", "science_t5")
+data$science_t5 <- as.numeric(data$science_t5)
+
+##### Correlation test #####
+cor.test(data$math, data$workhour12)
+cor.test(data$reading, data$workhour12)
+cor.test(data$science, data$workhour12)
+
+cor.test(data$math_l2, data$workhour12)
+cor.test(data$math_t5, data$workhour12)
+
+cor.test(data$reading_l2, data$workhour12)
+cor.test(data$reading_t5, data$workhour12)
+
+cor.test(data$science_l2, data$workhour12)
+cor.test(data$science_t5, data$workhour12)
