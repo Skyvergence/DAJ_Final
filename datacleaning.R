@@ -1,5 +1,7 @@
 library(readxl)
 library(dplyr)
+library(ggplot2)
+library(ggthemes)
 
 ##### Import Data #####
 math <- read.csv("data/ESCSMath_2012.csv", header = T)
@@ -208,6 +210,7 @@ cor.test(data$math, data$workhour12)
 cor.test(data$reading, data$workhour12)
 cor.test(data$science, data$workhour12)
 
+
 cor.test(data$math_l2, data$workhour12)
 cor.test(data$math_t5, data$workhour12)
 
@@ -216,3 +219,81 @@ cor.test(data$reading_t5, data$workhour12)
 
 cor.test(data$science_l2, data$workhour12)
 cor.test(data$science_t5, data$workhour12)
+
+##### Math score vs working hour #####
+cor.test(data$math, data$workhour12)
+ggplot(data, aes(x=workhour12, y=math)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Math Score") +
+    labs(title = "PISA Math Score and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+
+
+##### Reading score vs working hour #####
+cor.test(data$reading, data$workhour12)
+ggplot(data, aes(x=workhour12, y=reading)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Reading Score") +
+    labs(title = "PISA Reading Score and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+##### Science score vs working hour #####
+cor.test(data$science, data$workhour12)
+ggplot(data, aes(x=workhour12, y=science)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Science Score") +
+    labs(title = "PISA Science Score and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+##### PISA Math below level 2 and Working Hour
+ggplot(data, aes(x=workhour12, y=math_l2)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Percentage of students below Level 2 in mathematics in PISA") +
+    labs(title = "PISA Math below level 2 and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+##### PISA Science below level 2 and Working Hour
+ggplot(data, aes(x=workhour12, y=science_l2)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Percentage of students below Level 2 in science in PISA") +
+    labs(title = "PISA Science below level 2 and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+##### PISA Reading below level 2 and Working Hour
+ggplot(data, aes(x=workhour12, y=reading_l2)) +
+    geom_point(shape=1) +
+    geom_smooth(method=lm)+
+    xlab("Working Hour") +
+    ylab("Percentage of students below Level 2 in reading in PISA") +
+    labs(title = "PISA Reading below level 2 and Working Hour" ) + 
+    theme(plot.title = element_text(lineheight=.8, face="bold")) +
+    theme_few()
+
+
+hist(data$math)
+hist(data$science)
+hist(data$reading)
+hist(data$workhour12)
+
+summary(data)
